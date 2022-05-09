@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;//libreria cor
+using System.Text.Json;
+using System;
+using WebApplication1.Modelos;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,8 +29,15 @@ namespace WebApplication1.Controllers
 
         // POST api/<ValuesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public string Post([FromBody] JsonElement datos)
         {
+            int id = datos.GetProperty("id").GetInt32();
+            String name = datos.GetProperty("name").GetString();
+            String password = datos.GetProperty("password").GetString();
+            usuarios u = new usuarios(id, name, password);
+            u.conectar();
+            string m = u.ingresar();
+            return m;
         }
 
         // PUT api/<ValuesController>/5

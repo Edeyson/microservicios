@@ -26,3 +26,6 @@ C:\Users\edeys\Documents\Proyecto-Dist\backend\WebApplication1\obj\Debug\net5.0\
 C:\Users\edeys\Documents\Proyecto-Dist\backend\WebApplication1\obj\Debug\net5.0\WebApplication1.pdb
 C:\Users\edeys\Documents\Proyecto-Dist\backend\WebApplication1\obj\Debug\net5.0\WebApplication1.genruntimeconfig.cache
 C:\Users\edeys\Documents\Proyecto-Dist\backend\WebApplication1\obj\Debug\net5.0\ref\WebApplication1.dll
+C:\Users\edeys\Documents\Proyecto-Dist\backend\WebApplication1\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\edeys\Documents\Proyecto-Dist\backend\WebApplication1\bin\Debug\net5.0\Npgsql.dll
+C:\Users\edeys\Documents\Proyecto-Dist\backend\WebApplication1\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
