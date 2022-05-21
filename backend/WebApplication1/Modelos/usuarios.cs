@@ -8,13 +8,8 @@ using Npgsql;// Libreria
 
 
 
-namespace WebApplication1.Modelos
+namespace WebApplication1.Modelos { 
 
-
-
-
-
-{
     public class usuarios
     {
         int id { set; get; }
@@ -51,71 +46,48 @@ namespace WebApplication1.Modelos
             try
             {
                 NpgsqlCommand cmd = new NpgsqlCommand();
-                string sql = "INSERT INTO usuario VALUES("+this.id + ",'" + this.name + "','" + this.password + "'," + this.age + ", 'user_admin')";
+                string sql = "INSERT INTO usuario VALUES("+this.id + ",'" + this.name + "','" + this.password + "'," + this.age + ", 'user_auth')";
                 new NpgsqlCommand(sql,this.cone).ExecuteNonQuery();
                 return "Datos guardados:)";
             }
             catch (Exception E)
             {
-                return "Error, verificar(Si es llave duplicada ,o" +
-                    "erro  " + E;
+                return "Error, duplicacion " + E;
             }
         }
 
-        public Boolean loggin()
+        public string loggin()
         {
             try
             {
                 NpgsqlCommand cmd = new NpgsqlCommand();
                 String sql = "SELECT * FROM usuario WHERE id=" + this.id + "AND password = '" + this.password + "';";
                 new NpgsqlCommand(sql, this.cone).ExecuteNonQuery();
-                return true;
-             }
+
+                var reader = new NpgsqlCommand(sql, this.cone).ExecuteReader();
+                var todoslosusuarios = new List<dynamic>();
+
+                while (reader.Read())
+                {
+                    dynamic usuarios = new ExpandoObject();
+                    usuarios.cedula = reader.GetInt64(0);
+                    usuarios.nombre = reader.GetString(1);
+                    usuarios.pass = reader.GetString(2);
+                    usuarios.edad = reader.GetInt64(3);
+                    usuarios.rol = reader.GetString(4);
+                    todoslosusuarios.Add(usuarios);
+                }
+                string Json = JsonConvert.SerializeObject(todoslosusuarios);
+
+                reader.Close();
+
+                return Json;
+            }
             catch(Exception e)
             {
                 String p = ("mensaje "+e);
-                return false;
+                return p;
             }
-        }
-
-        public String eliminar()
-        {
-            String mensaje = "";
-            try
-            {
-                NpgsqlCommand cmd = new NpgsqlCommand();
-                string sql = "delete from usuarios where cedula='" + this.id + "';";
-                cmd = new NpgsqlCommand(sql, this.cone);
-                cmd.ExecuteNonQuery();
-                mensaje = "se elimino con exito";
-
-            }
-            catch (Exception E)
-            {
-                mensaje = "" + E;
-            }
-            return mensaje;
-        }
-
-
-        public String modificar()
-        {
-            String mensaje = "";
-            try
-            {
-                NpgsqlCommand cmd = new NpgsqlCommand();
-                string sql = "update usuarios set nombre='" + this.name + "', age=" + this.age + ", password='" + this.password +"' where cedula=" + this.id + ";";
-
-                cmd = new NpgsqlCommand(sql, this.cone);
-                cmd.ExecuteNonQuery();
-                mensaje = "se actualizó con exito";
-
-            }
-            catch (Exception E)
-            {
-                mensaje = "" + E;
-            }
-            return mensaje;
         }
 
         public String listar()
