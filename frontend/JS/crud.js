@@ -27,6 +27,46 @@ function registrar() {
 }
 
 
+function loggin() {
+    var idLogin = document.getElementById("loginCedula").value;
+    var passwordLogin = document.getElementById("loginPassword").value;
+    var request = new Request('https://localhost:44339/api/Values/' + idLogin + "/" + passwordLogin, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    });
+    fetch(request)
+        .then(function(response) {
+            return response.text();
+        })
+        .then(function(data) {
+            alert(data);
+            json1 = JSON.parse(data);
+
+            if (json1) {
+                console.log(json1);
+                persona = {
+                    "id": idLogin,
+                    "pass": passwordLogin
+                }
+                personaSave = JSON.stringify(persona);
+
+                localStorage.setItem("login", personaSave);
+            }
+
+        })
+        .catch(function(err) {
+            console.error(err);
+        });
+}
+
+
+function logout() {
+    localStorage.removeItem("login");
+}
+
 
 function registrar2() {
     var persona = JSON.stringify({
@@ -40,16 +80,5 @@ function registrar2() {
 }
 
 function login() {
-    var persona2 = JSON.stringify({
-        id: document.getElementById("loginCedula").value,
-        password: document.getElementById("loginPassword").value,
-    });
 
-    var valid = JSON.parse(localStorage.getItem("persona"));
-
-    if (persona2.id == valid.id) {
-        console.log("si es!!");
-    } else {
-        console.log("no es!!");
-    }
 }

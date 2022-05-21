@@ -27,6 +27,14 @@ namespace WebApplication1.Controllers
             return "value";
         }
 
+        [HttpGet("{id}/{password}")]
+        public Boolean Get(int id, string password)
+        {
+            usuarios u = new usuarios(id, "", password, 0);
+            u.conectar();
+            return u.loggin();
+        }
+
         // POST api/<ValuesController>
         [HttpPost]
         public string Post([FromBody] JsonElement datos)

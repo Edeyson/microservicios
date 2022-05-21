@@ -51,7 +51,7 @@ namespace WebApplication1.Modelos
             try
             {
                 NpgsqlCommand cmd = new NpgsqlCommand();
-                string sql = "INSERT INTO usuario VALUES("+this.id + ",'" + this.name + "','" + this.password + "'," + this.age + ", 'user_auth')";
+                string sql = "INSERT INTO usuario VALUES("+this.id + ",'" + this.name + "','" + this.password + "'," + this.age + ", 'user_admin')";
                 new NpgsqlCommand(sql,this.cone).ExecuteNonQuery();
                 return "Datos guardados:)";
             }
@@ -59,6 +59,22 @@ namespace WebApplication1.Modelos
             {
                 return "Error, verificar(Si es llave duplicada ,o" +
                     "erro  " + E;
+            }
+        }
+
+        public Boolean loggin()
+        {
+            try
+            {
+                NpgsqlCommand cmd = new NpgsqlCommand();
+                String sql = "SELECT * FROM usuario WHERE id=" + this.id + "AND password = '" + this.password + "';";
+                new NpgsqlCommand(sql, this.cone).ExecuteNonQuery();
+                return true;
+             }
+            catch(Exception e)
+            {
+                String p = ("mensaje "+e);
+                return false;
             }
         }
 
@@ -88,7 +104,7 @@ namespace WebApplication1.Modelos
             try
             {
                 NpgsqlCommand cmd = new NpgsqlCommand();
-                string sql = "update usuarios set nombre='" + this.name + "', edad=" + this.age + "', password=" + this.password +" where cedula='" + this.id + "';";
+                string sql = "update usuarios set nombre='" + this.name + "', age=" + this.age + ", password='" + this.password +"' where cedula=" + this.id + ";";
 
                 cmd = new NpgsqlCommand(sql, this.cone);
                 cmd.ExecuteNonQuery();
