@@ -117,10 +117,85 @@ function listarJuegos() {
             return response.text();
         })
         .then(function(data) {
-            alert(data);
             json1 = JSON.parse(data);
 
             console.log(json1);
+            document.getElementById("gameList").innerHTML = "";
+
+            section = document.getElementById("gameList");
+            section.setAttribute("class", "container  tabla");
+            tabla = document.createElement("table");
+            tabla.setAttribute("class", "table");
+            thead = document.createElement("thead");
+            thead.setAttribute("class", "thead-light");
+            tr = document.createElement("tr");
+            th = document.createElement("th");
+            th.setAttribute("scope", "col");
+            texto = document.createTextNode("id");
+            th.appendChild(texto);
+            tr.appendChild(th);
+            thead.appendChild(tr)
+            tabla.appendChild(thead);
+            section.appendChild(tabla);
+
+
+            section = document.getElementById("gameList");
+            th = document.createElement("th");
+            th.setAttribute("scope", "col text-center");
+            texto = document.createTextNode("score");
+            th.appendChild(texto);
+            tr.appendChild(th);
+            thead.appendChild(tr)
+            tabla.appendChild(thead);
+            section.appendChild(tabla);
+
+            section = document.getElementById("gameList");
+            th = document.createElement("th");
+            th.setAttribute("scope", "col text-center");
+            texto = document.createTextNode("date");
+            th.appendChild(texto);
+            tr.appendChild(th);
+            thead.appendChild(tr)
+            tabla.appendChild(thead);
+            section.appendChild(tabla);
+
+
+
+
+            tbody = document.createElement("tbody");
+
+
+            for (let i = 0; i < json1.length; i++) {
+
+                tr = document.createElement("tr");
+                td = document.createElement("td");
+                texto = document.createTextNode(json1[i].id);
+                td.appendChild(texto);
+                tr.appendChild(td);
+
+
+                td = document.createElement("td");
+
+                texto = document.createTextNode(json1[i].score);
+                td.appendChild(texto);
+                tr.appendChild(td);
+
+
+
+                td = document.createElement("td");
+
+                texto = document.createTextNode(json1[i].date);
+                td.appendChild(texto);
+                tr.appendChild(td);
+
+
+
+
+                tbody.appendChild(tr)
+                tabla.appendChild(tbody);
+                section.appendChild(tabla);
+
+            }
 
         })
         .catch(function(err) {
