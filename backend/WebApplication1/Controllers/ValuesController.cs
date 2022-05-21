@@ -34,7 +34,8 @@ namespace WebApplication1.Controllers
             int id = datos.GetProperty("id").GetInt32();
             String name = datos.GetProperty("name").GetString();
             String password = datos.GetProperty("password").GetString();
-            usuarios u = new usuarios(id, name, password);
+            int edad = datos.GetProperty("age").GetInt32();
+            usuarios u = new usuarios(id, name, password, edad);
             u.conectar();
             string m = u.ingresar();
             return m;

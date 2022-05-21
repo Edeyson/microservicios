@@ -19,14 +19,19 @@ namespace WebApplication1.Modelos
     {
         int id { set; get; }
         String name { set; get; }
+        int age { set; get; }
 
         String password { set; get; }
         int [] game { set; get; }
-        public usuarios(int id, String name, String password)
+
+        String rol {get; set; } 
+        public usuarios(int id, String name, String password, int age)
         {
             this.id = id;
             this.name = name;
             this.password = password;
+            this.age = age;
+            this.rol = rol;
         }
 
         public usuarios()
@@ -46,14 +51,14 @@ namespace WebApplication1.Modelos
             try
             {
                 NpgsqlCommand cmd = new NpgsqlCommand();
-                string sql = "INSERT INTO usuario VALUES("+this.id + ",'" + this.name + "','" + this.password + "')";
+                string sql = "INSERT INTO usuario VALUES("+this.id + ",'" + this.name + "','" + this.password + "'," + this.age + ", 'user_auth')";
                 new NpgsqlCommand(sql,this.cone).ExecuteNonQuery();
                 return "Datos guardados:)";
             }
             catch (Exception E)
             {
                 return "Error, verificar(Si es llave duplicada ,o" +
-                    "erro Mara " + E;
+                    "erro  " + E;
             }
         }
 
@@ -83,7 +88,7 @@ namespace WebApplication1.Modelos
             try
             {
                 NpgsqlCommand cmd = new NpgsqlCommand();
-                string sql = "update usuarios set nombre='" + this.name + "', edad=" + this.id + " where cedula='" + this.id + "';";
+                string sql = "update usuarios set nombre='" + this.name + "', edad=" + this.age + "', password=" + this.password +" where cedula='" + this.id + "';";
 
                 cmd = new NpgsqlCommand(sql, this.cone);
                 cmd.ExecuteNonQuery();
@@ -118,7 +123,9 @@ namespace WebApplication1.Modelos
                     dynamic usuarios = new ExpandoObject();
                     usuarios.cedula = reader.GetString(0);
                     usuarios.nombre = reader.GetString(1);
-                    usuarios.edad = reader.GetInt64(2);
+                    usuarios.pass = reader.GetString(2);
+                    usuarios.edad = reader.GetInt64(3);
+                    usuarios.rol = reader.GetString(4);
                     todoslosusuarios.Add(usuarios);
                 }
                 string Json = JsonConvert.SerializeObject(todoslosusuarios);

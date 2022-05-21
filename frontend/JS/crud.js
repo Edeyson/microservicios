@@ -9,7 +9,7 @@ function registrar() {
             id: parseInt(document.getElementById("id").value),
             name: document.getElementById("name").value,
             password: document.getElementById("password").value,
-
+            age: parseInt(document.getElementById("age").value)
         })
 
     });
