@@ -28,7 +28,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet("{id}/{password}")]
-        public Boolean Get(int id, string password)
+        public string Get(int id, string password)
         {
             usuarios u = new usuarios(id, "", password, 0);
             u.conectar();
@@ -48,6 +48,8 @@ namespace WebApplication1.Controllers
             string m = u.ingresar();
             return m;
         }
+
+
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
