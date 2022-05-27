@@ -99,9 +99,9 @@ namespace WebApplication1.Modelos {
 
                 NpgsqlCommand cmd = new NpgsqlCommand();
                 if (id != 0)
-                    sql = "select * from usuarios where ced = '" + id + "'";
+                    sql = "select * from usuario where id = " + id + "";
                 if (id == 0)
-                    sql = "select * from usuarios";
+                    sql = "select * from usuario";
 
                 var reader = new NpgsqlCommand(sql, this.cone).ExecuteReader();
                 var todoslosusuarios = new List<dynamic>();
@@ -109,10 +109,10 @@ namespace WebApplication1.Modelos {
                 while (reader.Read())
                 {
                     dynamic usuarios = new ExpandoObject();
-                    usuarios.cedula = reader.GetString(0);
-                    usuarios.nombre = reader.GetString(1);
-                    usuarios.pass = reader.GetString(2);
-                    usuarios.edad = reader.GetInt64(3);
+                    usuarios.id = reader.GetInt64(0);
+                    usuarios.name = reader.GetString(1);
+                    usuarios.password = reader.GetString(2);
+                    usuarios.age = reader.GetInt64(3);
                     usuarios.rol = reader.GetString(4);
                     todoslosusuarios.Add(usuarios);
                 }

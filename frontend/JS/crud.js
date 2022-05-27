@@ -97,9 +97,9 @@ function drawCar() {
     var ctx = canvas.getContext("2d");
     var img = new Image();
     img.src = "./img/carro.png";
-    ctx.clearRect(posCarx, posCary, 200, 100);
+    /*ctx.clearRect(posCarx, posCary, 200, 100);
     ctx.fillStyle = "#6F7073";
-    ctx.fill();
+    ctx.fill();*/
     ctx.fillRect(posCarx, posCary, 200, 100);
     ctx.drawImage(img, posCarx, posCary);
 }
@@ -123,11 +123,11 @@ function StartGame() {
             var keyValue = event.key;
             switch (keyValue) {
                 case "w":
-                    posCary = 50;
+                    posCary -= 20;
                     console.log("arriba");
                     break;
                 case "s":
-                    posCary = 350;
+                    posCary += 20;
                     console.log("abajo");
                     break;
                 case "d":
@@ -191,6 +191,7 @@ function loggin() {
         }
 
     });
+
     fetch(request)
         .then(function(response) {
             return response.text();
@@ -211,12 +212,14 @@ function loggin() {
                 personaSave = JSON.stringify(persona);
 
                 localStorage.setItem("login", personaSave);
+                window.location.href = "index.html";
             }
 
         })
         .catch(function(err) {
             console.error(err);
         });
+
 }
 
 
@@ -255,6 +258,108 @@ function guardarJuego() {
         });
 }
 
+function listarUsuarios() {
+    var route = 'https://localhost:44339/api/Values/' + 0;
+    console.log(route);
+    var request = new Request(route, {
+        method: 'Get',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+
+    });
+    fetch(request)
+        .then(function(response) {
+            return response.text();
+        })
+        .then(function(data) {
+            json1 = JSON.parse(data);
+
+            console.log(json1);
+            document.getElementById("userList").innerHTML = "";
+
+            section = document.getElementById("userList");
+            section.setAttribute("class", "container  tabla");
+            tabla = document.createElement("table");
+            tabla.setAttribute("class", "table");
+            thead = document.createElement("thead");
+            thead.setAttribute("class", "thead-light");
+            tr = document.createElement("tr");
+            th = document.createElement("th");
+            th.setAttribute("scope", "col");
+            texto = document.createTextNode("Cedula");
+            th.appendChild(texto);
+            tr.appendChild(th);
+            thead.appendChild(tr)
+            tabla.appendChild(thead);
+            section.appendChild(tabla);
+
+
+            section = document.getElementById("userList");
+            th = document.createElement("th");
+            th.setAttribute("scope", "col text-center");
+            texto = document.createTextNode("Nombre");
+            th.appendChild(texto);
+            tr.appendChild(th);
+            thead.appendChild(tr)
+            tabla.appendChild(thead);
+            section.appendChild(tabla);
+
+            section = document.getElementById("userList");
+            th = document.createElement("th");
+            th.setAttribute("scope", "col text-center");
+            texto = document.createTextNode("Edad");
+            th.appendChild(texto);
+            tr.appendChild(th);
+            thead.appendChild(tr)
+            tabla.appendChild(thead);
+            section.appendChild(tabla);
+
+
+
+
+            tbody = document.createElement("tbody");
+
+
+            for (let i = 0; i < json1.length; i++) {
+
+                tr = document.createElement("tr");
+                td = document.createElement("td");
+                texto = document.createTextNode(json1[i].id);
+                td.appendChild(texto);
+                tr.appendChild(td);
+
+
+                td = document.createElement("td");
+
+                texto = document.createTextNode(json1[i].name);
+                td.appendChild(texto);
+                tr.appendChild(td);
+
+
+
+                td = document.createElement("td");
+
+                texto = document.createTextNode(json1[i].age);
+                td.appendChild(texto);
+                tr.appendChild(td);
+
+
+
+
+                tbody.appendChild(tr)
+                tabla.appendChild(tbody);
+                section.appendChild(tabla);
+
+            }
+
+
+        })
+        .catch(function(err) {
+            console.error(err);
+        });
+}
+
 
 function listarJuegos() {
     var route = 'https://localhost:44339/api/ValuesController_game/' + parseInt(JSON.parse(localStorage.getItem("login")).id);
@@ -271,6 +376,7 @@ function listarJuegos() {
             return response.text();
         })
         .then(function(data) {
+
             json1 = JSON.parse(data);
 
             console.log(json1);

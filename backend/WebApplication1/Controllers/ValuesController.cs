@@ -24,7 +24,10 @@ namespace WebApplication1.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+            usuarios u = new usuarios(id, "", "", 0);
+            u.conectar();
+            var lista = u.listar();
+            return lista;
         }
 
         [HttpGet("{id}/{password}")]
